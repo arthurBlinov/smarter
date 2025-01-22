@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useAnimationsReducer } from "../hooks/useAnimationReducer";
 import { useNameReducer } from "../hooks/useNameReducer";
 
-const MenuPopup = ({ selectedDate, setIsEventVisible, setSummaryContainer }) => {
+const MenuPopup = ({ selectedDate, setSummaryContainer }) => {
   const [visibleComponent, setVisibleComponent] = useState(null); 
   const [showConfirmation, setShowConfirmation] = useState(false); 
   const [showDeleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -76,7 +76,6 @@ const MenuPopup = ({ selectedDate, setIsEventVisible, setSummaryContainer }) => 
     onPanResponderRelease: (_, gestureState) => {
       if (gestureState.dy > 100) {
         animationsDispatch({ type: "HIDE_EVENT" });
-        setIsEventVisible(false);
         setTimeout(() => {
           setSummaryContainer(true);
         }, 500);
@@ -167,7 +166,7 @@ const MenuPopup = ({ selectedDate, setIsEventVisible, setSummaryContainer }) => 
         { opacity: confirmationAnim, transform: [{ scale: confirmationAnim }] },
       ]}
     >
-      <Text style={styles.confirmationText}>האם למחוק את כל ההוצאות של החודש?</Text>
+      <Text style={styles.confirmationText}>האם למחוק את הכל?</Text>
       <View style={styles.confirmationButtons}>
         <TouchableOpacity
           style={[styles.actionButton, { backgroundColor: "#FF6347" }]} 

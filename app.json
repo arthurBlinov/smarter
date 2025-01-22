@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "new_smarter",
-    "slug": "new_smarter",
+    "name": "smarter",
+    "slug": "smarter",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/smarter_png_smaller.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -17,15 +17,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/smarter_png_smaller.png",
+        "backgroundColor": "#ffffff",
+        "version": 4
+      },
+      "package": "com.mrarthur.new_smarter"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-sqlite"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f0996f0f-9900-4f8f-b7ce-695449b2f98f"
+      }
+    }
   }
 }

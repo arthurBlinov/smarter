@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NameContext = createContext();
@@ -20,14 +20,18 @@ const nameReducer = (state, action) => {
 
 export const NameProvider = ({ children }) => {
   const [name, dispatch] = useReducer(nameReducer, initialState);
+  const [loading, setLoading] = useState(true);
   const fetchNameFromStorage = async () => {
     try {
       const storedName = await AsyncStorage.getItem("name");
       if (storedName) {
         dispatch({ type: "GET_NAME", payload: JSON.parse(storedName) });
+
       }
     } catch (error) {
-      console.error("Failed to load name from storage:", error);
+      throw new Error;
+    }finally{
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -39,7 +43,7 @@ export const NameProvider = ({ children }) => {
       await AsyncStorage.setItem("name", JSON.stringify(newName));
       dispatch({ type: "SET_NAME", payload: newName });
     } catch (error) {
-      console.error("Failed to save name to storage:", error);
+      throw new Error;
     }
   };
 
@@ -48,12 +52,12 @@ export const NameProvider = ({ children }) => {
       await AsyncStorage.removeItem("name");
       dispatch({ type: "RESET_NAME" });
     } catch (error) {
-      console.error("Failed to reset name in storage:", error);
+      throw new Error;
     }
   };
 
   return (
-    <NameContext.Provider value={{ name, saveName, resetName, fetchNameFromStorage, dispatch }}>
+    <NameContext.Provider value={{ name, saveName, resetName, loading, dispatch }}>
       {children}
     </NameContext.Provider>
   );

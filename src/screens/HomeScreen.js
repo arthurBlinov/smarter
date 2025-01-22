@@ -10,45 +10,45 @@ const HomeScreen = ({ navigation }) => {
   const { name } = useContext(NameProvider);
   const { state: animationsState, dispatch: animationsDispatch } = useAnimationsReducer2(); 
   const { fadeAnim, scaleAnim } = animationsState; 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  useMemo(() => {
-    const setupDatabase = async () => {
-      try {
-        await initializeDatabase();
-        setLoading(false);  
-      } catch (error) {
-        setError(error);
-      }
-    };
-    setupDatabase();
-  }, []);
-
-  useEffect(() => {
-    animationsDispatch({ type: "FADE_IN", payload: { duration: 1000 } }); 
-    animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1, duration: 1000 } }); 
-  }, []);
-
   const handleNavigate = () => {
     navigation.navigate('CalendarScreen');
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+  useMemo(() => {
+    setLoading(true)
+    const setupDatabase = async () => {
+      try {
+        await initializeDatabase();
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false); 
+      }
+    };
+    setupDatabase();
+  }, []);
+  
 
+  useEffect(() => {
+    animationsDispatch({ type: "FADE_RESET" });
+    animationsDispatch({ type: "FADE_IN", payload: { duration: 600 } }); 
+    animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1.2, duration: 800 } });
+  }, [loading]);
+ 
   return (
     <View style={styles.container}>
       {error && <ErrorPopup />}
+      {loading && <Loading/>}
       <Animated.View style={[styles.rowContainer, { opacity: fadeAnim }]}>
-        <Text style={styles.welcomeText}>ברוך הבא לחכמר</Text>
+        <Text style={styles.welcomeText}>ברוכים הבאים לסמארטר, </Text>
         <Animated.Text style={[styles.nameText, { transform: [{ scale: scaleAnim }] }]}>
-          {name},
+          {name}
         </Animated.Text>
       </Animated.View>
-      <TouchableOpacity onPress={handleNavigate} style={styles.pillowButton}>
-        <Text style={styles.pillowText}>חכמר</Text>
+      <TouchableOpacity onPress={handleNavigate} disabled={loading} style={[styles.pillowButton, { opacity: fadeAnim}]}>
+        <Animated.Text style={styles.pillowText}>סמארטר</Animated.Text>
       </TouchableOpacity>
     </View>
   );
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rowContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,

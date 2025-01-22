@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Animated,
   TextInput,
@@ -21,8 +21,9 @@ const StartScreen = () => {
   const { scaleAnim, opacityAnim } = animationsState; 
   const { saveName } = useContext(NameProvider);
   const [name, setName] = useState('');
+  const [error, setError] = useState(false); 
   const navigation = useNavigation();
-
+  
   const handleFocus = () => {
     animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1.1, duration: 300 } }); 
     animationsDispatch({ type: "OPACITY_CHANGE", payload: { toValue: 0.5, duration: 300 } });
@@ -34,47 +35,59 @@ const StartScreen = () => {
   };
 
   const handleSaveName = async () => {
-    setIsLoading(true); 
+    if(name.length > 15){
+      setError(true);
+      return ;
+    }else{
+      setError(false);
+    } 
+    setIsLoading(true);
     await saveName(name);
     setTimeout(() => {
       setIsLoading(false); 
       navigation.navigate('HomeScreen');
+      
     }, 1000); 
   };
-
+  useEffect(() => {
+    animationsDispatch({ type: "SCALE_RESET" });
+    animationsDispatch({ type: "OPACITY_RESET" });
+  }, [])
   return (
     <>
       {isLoading && <Loading />}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
-          style={styles.container}
+          style={[styles.container, {direction:"rtl"}]}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           <Animated.View
-            style={[
-              styles.inputContainer,
-              { transform: [{ scale: scaleAnim }] },
-            ]}
-          >
-            <Animated.Text style={[styles.label, { opacity: opacityAnim }]}>
-              מה שמך
-            </Animated.Text>
-            <TextInput
               style={[
-                styles.input,
-                {
-                  textAlign: 'right',
-                  writingDirection: 'rtl',
-                },
+                styles.inputContainer,
+                { transform: [{ scale: scaleAnim }], borderColor: error ? 'red' : '#006400' },
               ]}
-              onFocus={handleFocus} 
-              onBlur={handleBlur} 
-              value={name}
-              onChangeText={(text) => setName(text)}
-              placeholder="שמי"
-              placeholderTextColor="green"
-            />
-          </Animated.View>
+            >
+              <Animated.Text style={[styles.label, { opacity: opacityAnim, color: error ? 'red' : '#aaa' }]}>
+                {error ? 'גדול מדי' : 'מה שמך'}
+              </Animated.Text>
+              <TextInput
+                style={[
+                  styles.input,
+                  {
+                    direction: 'rtl',
+                    textAlign: 'right',
+                    writingDirection: 'rtl',
+                  },
+                ]}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                value={name}
+                onChangeText={(text) => setName(text)}
+                placeholder="שמי"
+                placeholderTextColor="green"
+              />
+            </Animated.View>
+
           <TouchableOpacity
             onPress={handleSaveName}
             style={[styles.btnStyles, !name && styles.disabledBtnStyles]}
@@ -104,7 +117,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 100,
     backgroundColor: '#2A2A40',
-    direction: 'rtl',
   },
   input: {
     height: 40,
@@ -114,12 +126,12 @@ const styles = StyleSheet.create({
   label: {
     position: 'absolute',
     top: -10,
-    right: 15,
-    fontSize: 14,
+    // left: 15,
+    fontSize: 13,
     color: '#aaa',
-    backgroundColor: '#1E1E2C',
+    backgroundColor: '#2A2A40',
     paddingHorizontal: 5,
-    zIndex: 1,
+    zIndex: 9,
   },
   btnStyles: {
     width: 200,

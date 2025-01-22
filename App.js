@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -6,44 +6,27 @@ import StartScreen from "./src/screens/StartScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import MonthlyExpensesScreen from "./src/screens/MonthlyExpensesScreen";
-import NameProvider from "./src/context/NameContext";
 import Loading from "./src/components/Loading";
+import NameProvider from "./src/context/NameContext";
 
 const MainStack = createStackNavigator();
 
 const Navbar = () => (
   <View style={styles.navbar}>
-    <Text style={[ styles.navText, {textAlign: 'center'} ]}>חכמר</Text>
+    <Text style={[ styles.navText, {textAlign: 'center'} ]}>סמארטר</Text>
   </View>
 );
 
 const App = () => {
-  const [initialRoute, setInitialRoute] = useState(null);
-  const [initialParams, setInitialParams] = useState({});
-  const { name, fetchNameFromStorage } = useContext(NameProvider);
-  const [loading, setLoading] = useState(false);
-  
-  useEffect(() => {
-    const setInitialState = async() => {
-      setLoading(true)
-      await fetchNameFromStorage();
-          if (name) {
-            setInitialRoute("HomeScreen");
-            setInitialParams(name);
-          } else {
-            setInitialRoute("StartScreen");
-          }
-          setLoading(false);
-        }
-        setInitialState();
-    }, [name]);
-    
-
+  const { name, loading } = useContext(NameProvider);
   if (loading) {
     return (
      <Loading/>
     );
-  }
+  }  
+  const initialRoute = name ? "HomeScreen" : "StartScreen";
+   
+
 
   return (
     <NavigationContainer>
@@ -56,11 +39,10 @@ const App = () => {
           headerLeft: () => null
         }}
       >
-        <MainStack.Screen name="StartScreen" component={StartScreen} />
+        <MainStack.Screen name="StartScreen" component={StartScreen}/>
         <MainStack.Screen
           name="HomeScreen"
           component={HomeScreen}
-          initialParams={initialParams}
         />
         <MainStack.Screen
           name="CalendarScreen"
@@ -81,6 +63,7 @@ export default App;
 
 const styles = StyleSheet.create({
   navbar: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: '100%',

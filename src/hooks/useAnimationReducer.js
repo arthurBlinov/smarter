@@ -16,7 +16,7 @@ const animationsReducer = (state, action) => {
     case "FADE_IN":
       Animated.timing(state.fadeAnim, {
         toValue: 1,
-        duration: 400,
+        duration: 600,
         useNativeDriver: true,
       }).start();
       return state;

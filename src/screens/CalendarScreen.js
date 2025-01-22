@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -60,9 +60,30 @@ const CalendarScreen = () => {
 
   useEffect(() => {
     animationsDispatch({ type: "FADE_IN" });
-    animationsDispatch({type: 'HIDE_EVENT'})
+    
   }, []);
- 
+  const getMarkedDates = () => {
+    const marked = {
+      [selectedDate]: {
+        selected: true,
+        marked: true,
+        selectedColor: "#003300", 
+      },
+    };
+  
+    expenses.forEach((expense) => {
+      const { date } = expense; 
+      marked[date] = {
+        ...marked[date],
+        marked: true,
+        dotColor: "#FFFFFF", 
+        activeOpacity: 0,
+      };
+    });
+  
+    return marked;
+  };
+  
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
@@ -94,7 +115,7 @@ const CalendarScreen = () => {
 
   const toggleEditName = () => {
     if (editingName) {
-      if (newName.trim()) {
+      if (newName.trim() && newName.length <= 15) {
         nameDispatch({ type: "SAVE_NAME" });
       } else {
         nameDispatch({ type: "CANCEL_EDIT" });
@@ -119,6 +140,7 @@ const CalendarScreen = () => {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
     >
       {error && <ErrorPopup/>}
       <Animated.View
@@ -133,13 +155,7 @@ const CalendarScreen = () => {
         <Calendar
           current={`${currentYear}-${String(currentMonth).padStart(2, "0")}`}
           onDayPress={handleDayPress}
-          markedDates={{
-            [selectedDate]: {
-              selected: true,
-              marked: true,
-              selectedColor: "#003300",
-            },
-          }}
+          markedDates={getMarkedDates()}
           onMonthChange={handleMonthChange}
           onPressArrowRight={subtractMonth => subtractMonth()}  
           onPressArrowLeft={addMonth => addMonth()}
@@ -190,8 +206,21 @@ const CalendarScreen = () => {
        <Summary expenses={expenses} />
         </TouchableOpacity>
         <Text style={styles.userNameText}>שלום, {currentName}!</Text>
-        <TouchableOpacity style={styles.editButton} onPress={toggleEditName}>
-          <Text style={styles.editButtonText}>{editingName ? "שמור" : "לשנות שם"}</Text>
+        <TouchableOpacity
+              style={[
+                styles.editButton,
+                editingName && newName.length > 15 && styles.disabledButton, 
+              ]}
+              onPress={editingName && newName.length > 15 ? null : toggleEditName} 
+              disabled={editingName && newName.length > 15} 
+            >
+              <Text style={styles.editButtonText}>
+                {editingName
+                  ? newName.length > 15
+                    ? "גדול מדי" 
+                    : "שמור" 
+                  : "לשנות שם"} 
+              </Text>
         </TouchableOpacity>
         {editingName && (
           <View style={styles.editNameContainer}>
@@ -217,9 +246,6 @@ const CalendarScreen = () => {
   )}
       <MenuPopup
         selectedDate={selectedDate}
-        setIsEventVisible={() =>
-          animationsDispatch({ type: "HIDE_EVENT" })
-        }
         setSummaryContainer={setSummaryContainer}
       />
     </KeyboardAvoidingView>
@@ -305,6 +331,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#DAA520",
     borderRadius: 2.5,
   },
+  disabledButton: {
+    backgroundColor: "#808080", 
+    opacity: 0.5,
+  },
+  
 });
 
 export default CalendarScreen;

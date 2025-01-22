@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { Animated } from "react-native";
 
 const initialAnimationsState = {
-  fadeAnim: new Animated.Value(0),
+  fadeAnim: new Animated.Value(1),
   scaleAnim: new Animated.Value(1),
   opacityAnim: new Animated.Value(1), 
 };
@@ -12,21 +12,23 @@ const animationsReducer = (state, action) => {
     case "FADE_IN":
       Animated.timing(state.fadeAnim, {
         toValue: 1,
-        duration: action.payload?.duration || 500,
+        duration: action.payload?.duration,
         useNativeDriver: true,
       }).start();
       return state;
-    case "FADE_OUT":
-      Animated.timing(state.fadeAnim, {
-        toValue: 0,
-        duration: action.payload?.duration || 500,
-        useNativeDriver: true,
-      }).start();
+    case "FADE_RESET":
+      state.fadeAnim.setValue(0);
+      return state;
+    case "SCALE_RESET":
+      state.scaleAnim.setValue(1);
+      return state;
+    case "OPACITY_RESET":
+      state.opacityAnim.setValue(1);
       return state;
     case "SCALE_UP":
       Animated.timing(state.scaleAnim, {
         toValue: action.payload?.toValue || 1.1,
-        duration: action.payload?.duration || 300,
+        duration: action.payload?.duration,
         useNativeDriver: true,
       }).start();
       return state;

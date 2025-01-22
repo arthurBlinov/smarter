@@ -76,6 +76,7 @@ const renderExpense = ({ item, index }) => {
             <ActivityIndicator size="small" color="#FFD700" />
           ) : !hasMore && null
         }
+        style={{direction:"rtl"}}
       />
     </View>
   );
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     borderColor: '#FFD700',
   },
   expenseContent: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
   },
   expenseText: {
     color: '#FFFFFF',

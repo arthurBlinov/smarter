@@ -193,6 +193,7 @@ const ShowExpenses = ({ selectedDate, goBack }) => {
                 ) : !hasMore && null
               }
               removeClippedSubviews={false}
+              style={{direction: 'rtl'}}
             />
 
       
@@ -256,27 +257,26 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   row: {
-    flexDirection: "row-reverse",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   expensesContent: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     width: '75%',
+
   },
   valueAmount: {
     fontSize: 16,
     color: "#FFFFFF",
-    textAlign: "right",
   },
   valueNote: {
       fontSize: 16,
       color: '#FFFFFF',
-      textAlign: 'right',
-      flexWrap: 'wrap',
-      marginTop: -40
-    },
+      marginTop: -40,
+      
+  },
   editContainer: {
     flexDirection: "column",
     flex: 1,
