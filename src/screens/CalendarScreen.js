@@ -76,7 +76,7 @@ const CalendarScreen = () => {
       marked[date] = {
         ...marked[date],
         marked: true,
-        dotColor: "#FFFFFF", 
+        dotColor: "#FFD700", 
         activeOpacity: 0,
       };
     });
@@ -164,7 +164,7 @@ const CalendarScreen = () => {
             direction: 'rtl'
           }}
           renderArrow={(direction) => (
-            <Text style={{ color: "#FFFFFF", fontSize: 20 }}>
+            <Text style={{ color: "#FFFFFF", fontSize: 25 }}>
               {direction === "left" ? "→" : "←"}
             </Text>
           )}
@@ -182,15 +182,8 @@ const CalendarScreen = () => {
             selectedDotColor: "#FFFFFF",
             arrowColor: "#FFFFFF",
             monthTextColor: "#FFFFFF",
-            'stylesheet.day.basic': {
-            base: {
-              width: 32,
-              height: 32,
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "row-reverse", 
-            },
-          }
+            textDayFontSize: 20,
+            textDayFontWeight: 800
           }}
         />
       </Animated.View>
@@ -280,7 +273,7 @@ const styles = StyleSheet.create({
   },
   userNameText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 15,
   },
   editButton: {
@@ -292,7 +285,7 @@ const styles = StyleSheet.create({
   },
   editButtonText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "bold",
   },
   editNameContainer: {

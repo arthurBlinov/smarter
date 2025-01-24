@@ -11,7 +11,7 @@ const Summary = ({ expenses }) => {
       {result === false ? (
         <Text style={styles.error}>סכום לא בטוח</Text>
       ) : (
-        <Text style={styles.value}>₪ {result}</Text>
+        <Text style={styles.value}>{result} ₪</Text>
       )}
       <View style={styles.line}/>
     </View>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     padding: 5
 },
   value: {
-    fontSize: 18,
+    fontSize: 22,
     color: "#FFD700",
     textAlign: "center",
   },
@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
     textAlign: "center", 
   },
   line: {
-    width: 150,
+    width: 160,
     borderColor: '#FFD700',
     borderWidth: 1,
-    marginTop: 2,
+    marginTop: 5,
     marginBottom: 2,
   }
 });

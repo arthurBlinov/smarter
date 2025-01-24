@@ -94,7 +94,7 @@ const AddExpense = ({ selectedDate, goBack }) => {
         style={[styles.actionButton, styles.closeButton]}
         onPress={goBack}
       >
-        <Text style={styles.buttonText}>X</Text>
+        <Text style={styles.buttonText}>חזור</Text>
       </TouchableOpacity>
     </Animated.View>
     </View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "#3C3C4D",
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 16,
     borderRadius: 10,
     marginVertical: 10,
     color: "#FFFFFF",

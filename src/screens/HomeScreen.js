@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { View, Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Animated, TouchableOpacity, BackHandler } from 'react-native';
 import NameProvider from '../context/NameContext';
 import { initializeDatabase } from '../db/sqlTables';
 import Loading from '../components/Loading'; 
 import ErrorPopup from '../components/ErrorPopup';
 import { useAnimationsReducer2 } from '../hooks/useAnimationReducer2'; 
+import { useFocusEffect } from '@react-navigation/native';
 
 const HomeScreen = ({ navigation }) => {
   const { name } = useContext(NameProvider);
@@ -15,7 +16,18 @@ const HomeScreen = ({ navigation }) => {
   const handleNavigate = () => {
     navigation.navigate('CalendarScreen');
   };
+  useFocusEffect(
+    React.useCallback(() => {
+        const onBackPress = () => {
+            return true;
+        };
+      
+        BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
+        return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+);
   useMemo(() => {
     setLoading(true)
     const setupDatabase = async () => {

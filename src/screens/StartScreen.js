@@ -23,7 +23,10 @@ const StartScreen = () => {
   const [name, setName] = useState('');
   const [error, setError] = useState(false); 
   const navigation = useNavigation();
-  
+  useEffect(() => {
+    animationsDispatch({ type: "SCALE_RESET" });
+    animationsDispatch({ type: "OPACITY_RESET" });
+  }, [])
   const handleFocus = () => {
     animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1.1, duration: 300 } }); 
     animationsDispatch({ type: "OPACITY_CHANGE", payload: { toValue: 0.5, duration: 300 } });
@@ -44,15 +47,11 @@ const StartScreen = () => {
     setIsLoading(true);
     await saveName(name);
     setTimeout(() => {
-      setIsLoading(false); 
       navigation.navigate('HomeScreen');
-      
+      setIsLoading(false); 
     }, 1000); 
   };
-  useEffect(() => {
-    animationsDispatch({ type: "SCALE_RESET" });
-    animationsDispatch({ type: "OPACITY_RESET" });
-  }, [])
+  
   return (
     <>
       {isLoading && <Loading />}

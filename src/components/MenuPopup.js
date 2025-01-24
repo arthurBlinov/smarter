@@ -14,7 +14,7 @@ import NameProvider from "../context/NameContext";
 import { useNavigation } from "@react-navigation/native";
 import { useAnimationsReducer } from "../hooks/useAnimationReducer";
 import { useNameReducer } from "../hooks/useNameReducer";
-
+import { ChevronDoubleDownIcon } from 'react-native-heroicons/outline'
 const MenuPopup = ({ selectedDate, setSummaryContainer }) => {
   const [visibleComponent, setVisibleComponent] = useState(null); 
   const [showConfirmation, setShowConfirmation] = useState(false); 
@@ -197,7 +197,9 @@ const MenuPopup = ({ selectedDate, setSummaryContainer }) => {
             </View>
             <View style={styles.arrowContainer}>
             <TouchableOpacity onPress={() => showEvent()}>
-              <View style={styles.arrow} />
+              <View>
+                <ChevronDoubleDownIcon size={36} style={{}} color='#FFA500'/>
+              </View>
             </TouchableOpacity>
           </View>
 
@@ -213,7 +215,7 @@ const styles = StyleSheet.create({
   eventContainer: {
     position: "absolute",
     width: "100%",
-    height: "70%",
+    height: "75%",
     top: 0, 
     backgroundColor: "#2A2A40",
     padding: 20,
@@ -226,12 +228,12 @@ const styles = StyleSheet.create({
   
   arrowContainer: {
     alignItems: "center",
-    marginBottom: 10,
-    marginTop: 20,
+    marginBottom: 14,
+    marginTop: 25,
   },
   arrow: {
-    width: 60,
-    height: 6,
+    width: 65,
+    height: 8,
     backgroundColor: "#FFA500",
     borderRadius: 15,
     marginBottom: 10,
@@ -266,7 +268,7 @@ const styles = StyleSheet.create({
   
   buttonText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "bold",
   },
   confirmationContainer: {
