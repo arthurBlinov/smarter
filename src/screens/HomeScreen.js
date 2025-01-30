@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity, BackHandler } from 'react-native';
 import NameProvider from '../context/NameContext';
-// import { initializeDatabase } from '../db/sqlTables';
-import { initializeDatabase } from '../db/dbFunctions';
+import { initializeDatabase } from '../db/sqlTables';
 import Loading from '../components/Loading'; 
 import ErrorPopup from '../components/ErrorPopup';
 import { useAnimationsReducer2 } from '../hooks/useAnimationReducer2'; 
-// import { useFocusEffect } from '@react-navigation/native';
 
 const HomeScreen = ({ navigation }) => {
   const { name } = useContext(NameProvider);
@@ -17,19 +15,8 @@ const HomeScreen = ({ navigation }) => {
   const handleNavigate = () => {
     navigation.navigate('CalendarScreen');
   };
-//   useFocusEffect(
-//     React.useCallback(() => {
-//         const onBackPress = () => {
-//             return true;
-//         };
-      
-//         BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
-//         return () =>
-//             BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-//     }, [])
-// );
-  useMemo(() => {
+  useEffect(() => {
     setLoading(true)
     const setupDatabase = async () => {
       try {
@@ -44,11 +31,11 @@ const HomeScreen = ({ navigation }) => {
   }, []);
   
 
-  useEffect(() => {
+  // useEffect(() => {
     // animationsDispatch({ type: "FADE_RESET" });
-    animationsDispatch({ type: "FADE_IN", payload: { duration: 600 } }); 
-    animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1.2, duration: 800 } });
-  }, [loading]);
+  //   animationsDispatch({ type: "FADE_IN", payload: { duration: 600 } }); 
+  //   animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1.2, duration: 800 } });
+  // }, [loading]);
  
   return (
     <View style={styles.container}>
