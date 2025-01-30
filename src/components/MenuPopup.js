@@ -14,7 +14,7 @@ import NameProvider from "../context/NameContext";
 import { useNavigation } from "@react-navigation/native";
 import { useAnimationsReducer } from "../hooks/useAnimationReducer";
 import { useNameReducer } from "../hooks/useNameReducer";
-import { ChevronDoubleDownIcon } from 'react-native-heroicons/outline'
+// import { ChevronDoubleDownIcon } from 'react-native-heroicons/outline'
 const MenuPopup = ({ selectedDate, setSummaryContainer }) => {
   const [visibleComponent, setVisibleComponent] = useState(null); 
   const [showConfirmation, setShowConfirmation] = useState(false); 
@@ -198,7 +198,7 @@ const MenuPopup = ({ selectedDate, setSummaryContainer }) => {
             <View style={styles.arrowContainer}>
             <TouchableOpacity onPress={() => showEvent()}>
               <View>
-                <ChevronDoubleDownIcon size={36} style={{}} color='#FFA500'/>
+                {/* <ChevronDoubleDownIcon size={36} style={{}} color='#FFA500'/> */}
               </View>
             </TouchableOpacity>
           </View>

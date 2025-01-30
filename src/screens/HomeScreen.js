@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity, BackHandler } from 'react-native';
 import NameProvider from '../context/NameContext';
-import { initializeDatabase } from '../db/sqlTables';
+// import { initializeDatabase } from '../db/sqlTables';
+import { initializeDatabase } from '../db/dbFunctions';
 import Loading from '../components/Loading'; 
 import ErrorPopup from '../components/ErrorPopup';
 import { useAnimationsReducer2 } from '../hooks/useAnimationReducer2'; 
@@ -44,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
   
 
   useEffect(() => {
-    animationsDispatch({ type: "FADE_RESET" });
+    // animationsDispatch({ type: "FADE_RESET" });
     animationsDispatch({ type: "FADE_IN", payload: { duration: 600 } }); 
     animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1.2, duration: 800 } });
   }, [loading]);
