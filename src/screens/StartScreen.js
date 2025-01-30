@@ -47,7 +47,10 @@ const StartScreen = () => {
     setIsLoading(true);
     await saveName(name);
     setTimeout(() => {
-      navigation.navigate('HomeScreen');
+      navigation.reset({ 
+        index: 0, 
+        routes: [{ name: 'HomeScreen' }] 
+      });
       setIsLoading(false); 
     }, 1000); 
   };
