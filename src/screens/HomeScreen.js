@@ -29,13 +29,12 @@ const HomeScreen = ({ navigation }) => {
     };
     setupDatabase();
   }, []);
-  
 
-  // useEffect(() => {
-    // animationsDispatch({ type: "FADE_RESET" });
-  //   animationsDispatch({ type: "FADE_IN", payload: { duration: 600 } }); 
-  //   animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1.2, duration: 800 } });
-  // }, [loading]);
+  useEffect(() => {
+    animationsDispatch({ type: "FADE_RESET" });
+    animationsDispatch({ type: "FADE_IN", payload: { duration: 600 } }); 
+    animationsDispatch({ type: "SCALE_UP", payload: { toValue: 1.2, duration: 800 } });
+  }, [loading]);
  
   return (
     <View style={styles.container}>
